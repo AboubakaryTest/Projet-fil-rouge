@@ -17,3 +17,14 @@ app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
+
+const pool = require('./config/db');
+
+pool.getConnection()
+  .then(conn => {
+    console.log('✅ Connexion DB réussie');
+    conn.release();
+  })
+  .catch(err => {
+    console.error('❌ Erreur connexion DB:', err);
+  });
