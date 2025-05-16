@@ -6,6 +6,14 @@ const rateLimit = require('express-rate-limit');
 const { validateRegister } = require('../middleware/validateUser');
 
 
+//Réduction du nombre de tentavives de Login a 3
+const loginLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 15 minutes
+  max: 3, // max 5 tentatives
+  message: { error: "Trop de tentatives, réessayez plus tard." }
+});
+router.post('/login', loginLimiter, userController.login);
+
 // Routes publiques
 router.post('/register', userController.register);
 router.post('/login', userController.login);
@@ -14,9 +22,6 @@ router.post('/login', userController.login);
 router.get('/me', auth, userController.getProfile);
 router.put('/update', auth, userController.updateProfile);
 router.delete('/delete', auth, userController.deleteProfile);
-
-//Réduction du nombre de tentavives de Login a 3
-router.post('/login', loginLimiter, userController.login);
 
 //Validation de user
 router.post('/register', validateRegister, userController.register);
