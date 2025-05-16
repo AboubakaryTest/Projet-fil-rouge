@@ -78,5 +78,15 @@ module.exports = {
     } finally {
       conn.release();
     }
+  },
+  
+  async maskedUsers(req, res) {
+    const conn = await pool.getConnection();
+    try {
+      const rows = await conn.query('SELECT * FROM masked_users');
+      res.json(rows);
+    } finally {
+      conn.release();
+    }
   }
 };

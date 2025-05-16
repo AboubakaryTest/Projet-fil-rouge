@@ -1,8 +1,8 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-
 const app = express();
+const rateLimit = require('express-rate-limit');
 
 app.use(cors({
   origin: 'http://localhost:8080', // autorise le front Vue.js
@@ -30,3 +30,11 @@ pool.getConnection()
   .catch(err => {
     console.error('❌ Erreur connexion DB:', err);
   });
+
+
+  // Limiter les requêtes de login : 3 tentatives toutes les 10 minutes
+const loginLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 3,
+  message: { error: "Trop de tentatives, réessayez plus tard." }
+});
