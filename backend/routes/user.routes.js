@@ -22,4 +22,8 @@ router.post('/login', loginLimiter, userController.login);
 router.post('/register', validateRegister, userController.register);
 
 
+//
+router.get('/masked', auth, userController.maskedUsers);
+
+
 module.exports = router;
