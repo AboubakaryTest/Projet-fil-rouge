@@ -36,8 +36,8 @@ module.exports = {
       return res.status(401).json({ error: 'Email ou mot de passe invalide.' });
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email }, SECRET, {
-      expiresIn: '1h'
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, {
+  expiresIn: '1h'
     });
 
     return res.status(200).json({ message: 'Connexion réussie.', token });
